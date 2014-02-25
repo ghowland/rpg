@@ -1,0 +1,142 @@
+window:
+	size: [640, 480]
+	title: Something Different!
+
+
+map:
+	tile_size: 32
+	
+	# This can be overridden in any map.
+	max_visibility: 8
+	max_visibility_night: 3
+
+
+game:
+	initial_map: data/maps/city
+	color_key: [0, 255, 0]
+	sleep_regeneration_percent: 1.0
+
+	#TODO(g): Is this useful to have in data?  Can it help script things any better than just 
+	#		hard coding everything?
+	modes: ['game_initiate', 'game_world', 'game_dialogue', 'game_combat', 'options_config']
+
+	# This is the base description for ALL items.  All items first populate their dictionaries from
+	#		this definition, then add their template and instance information.  All attributes we use 
+	master_item:
+		name: null
+		type: null
+		template: null
+		
+		text: Description of item.
+		
+		cost: null
+		
+		range: null
+		range_damage: null	#[low, high]
+		melee_damage: null	#[low, high]
+		
+		protection: null
+		
+		# Attrbutes is a dictionary of special attributes
+		attributes:
+		
+	
+	# Type of items
+	item_types: [weapon, ammo, clothing, armor, sundries, misc]
+		
+
+
+# --- Quests
+
+quests:
+	fight_club:
+		name: Join the Fight Club
+		text: Hammerhead Fred said the Rusty Nail in New Haven has a rough bunch you can pick up fights from.
+		success:
+			condition:
+				has_achievement: [fight_club.found]
+
+
+	forest_enemies:
+		name: Monsters of the Forrest
+		text: There are many strange and interesting creatures of the forrest waiting to meet you, and kill you.
+		success:
+			condition:
+				#has_killed: [bear_bug, wood_sprite, lizard_lion]
+				has_achievement: [killed.bear_bug, killed.wood_sprite, "killed.lizard_lion"]
+
+
+	intrigue:
+		name: Mystery of the Rose & Crown
+		text: There are people up to no good at the Rose & Crown in Templeton.  Why not join them?
+		success:
+			condition:
+				has_achievement: [intrigue.found]
+
+
+	magic_career:
+		name: Find A Smith or Army
+		text: Find a smith who will pay you to enchant items, or become an Escort for an Army.
+		success:
+			condition:
+				has_achievement: [magic_career.been_paid]
+
+
+
+
+# --- Items
+items:
+	dagger:
+		name: Dagger
+		type: weapon
+		cost: 5
+		text: It is a short double sided blade.
+		melee_damage: [1, 10]
+	
+	hammer:
+		name: Hammer
+		type: weapon
+		cost: 15
+		text: It looks heavy, and it is.
+		melee_damage: [4, 20]
+	
+	
+	tunic:
+		name: Tunic
+		type: clothing
+		cost: 2
+		text: This tunic mid-thigh, short sleeaved tunic is made of rough and simple material.
+		
+
+		
+logic_operations:
+	MeleeAggressive:
+		target: player
+
+		states:
+			00_in_range:
+				# Attack target
+				operation: AttackMelee
+
+				# If actor is within melee striking distance (1 tile, in any of 8 directions)
+				condition:
+					0:
+						source:
+							distance: target
+						target:
+							value: 1.5
+						operation:
+							compare: less_than_or_equal
+
+			10_out_of_range:
+				# Move closer to the target
+				operation: ApproachTarget
+	
+	Flee:
+		#TODO(g): Figure out how to make this target specified in the Combatant data, not coded here.
+		#		This will work for our 1-person-party game as it is now though, so ok.
+		target: player
+		operation: FleeFromTarget
+		
+
+

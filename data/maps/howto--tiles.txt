@@ -1,0 +1,4 @@
+0 0 0009_grass.bmp	## List all of the tiles here...
+0 1 0011_elm.bmp	## Each line corresponds to the palette # on the map.bmp
+0 0 0007_water.bmp	## The 2 #s are: blocking and visible.  0 means no, 1 means it blocks but can be walked over with a stall, 2 means cant be walked through.  vis is just 0/1
+			## Always have a blank line at the end

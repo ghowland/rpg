@@ -1,0 +1,12 @@
+data/gfx/sqr/		## First line is the directory where the graphics are stored
+3 0 -1 -1 7 8 0 0	## This line is a collection of data about the map (order below)
+^ ^  ^  ^ ^ ^ ^ ^
+| |  |  | | | | | +- Exit Y (position or code to exit.  -2 for off any edge, -1 no exit)
+| |  |  | | | | +--- Exit X (position or code to exit.  -2 for off any edge, -1 no exit)
+| |  |  | | +------- Start Y (starting pos on map)
+| |  |  | +--------- Start Y (starting pos on map)
+| |  |  +----------- World Y (position to enter from the preceeding map)
+| |  +-------------- World X (position to enter from the preceeding map)
+| +----------------- Map From, the map you enter this map from
++------------------- Type - 0=World, 1=City, 3+=Encounters
+

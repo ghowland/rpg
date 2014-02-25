@@ -1,0 +1,29 @@
+name: World
+
+# For indoor places, set max and night to the same, or dont set night and normal is used
+max_visibility: 8
+max_visibility_night: 3
+
+player:
+	starting_pos: [48, 197]
+
+
+# Use the current map for encounters
+encounter:
+	map: null
+
+
+doors:
+  city:
+    pos: [48, 198]
+    map: data/maps/city
+	nothern_city:
+	  pos: [105, 82]
+    map: data/maps/city
+	nothern_city2:
+	  pos: [120, 56]
+    map: data/maps/city
+	nothern_city3:
+	  pos: [123, 9]
+    map: data/maps/city
+

@@ -1,0 +1,324 @@
+name: City of Gurgle
+
+# For indoor places, set max and night to the same, or dont set night and normal is used
+max_visibility: 8
+max_visibility_night: 3
+
+player:
+	starting_pos: [7, 13]
+
+
+# Use the current map for encounters
+encounter:
+	map: null
+	operation: RaiseAlarm		# This operation will raise any local alarms, which causes reflects in 
+													# 	the Logic choices for other Actors (like Guards to come, and
+													#		town people to run)
+
+
+doors:
+  world1:
+    pos: [0, 12]
+    map: data/maps/world
+    player_pos: [48, 197]
+  world2:
+    pos: [0, 13]
+    map: data/maps/world
+    player_pos: [48, 197]
+  world3:
+    pos: [0, 14]
+    map: data/maps/world
+    player_pos: [48, 197]
+
+
+actors:
+
+	barkeep01:
+		name: Hammerhead Fred
+		image: data/art/npc2.bmp
+		pos: [14, 20]
+		money: 150
+		hours: [5, 19]
+		starting_conversation: start
+		house: bar
+		
+		stats:
+			strength: 5
+			dexterity: 5
+			intelligence: 5
+			wisdom: 5
+			constitution: 5
+			charisma: 5
+
+		attributes:
+			health: 20
+			mana: 20
+			initiative: 5
+
+			# Actions
+			action_points: 2
+
+			#TODO(g): Move these to a Master Actor, which all actors should inherit from...
+			actions:
+				melee:
+					points: 2
+					operation: AttackMelee
+				move:
+					points: 1
+					operation: MoveDirection
+
+
+		logic:
+			# In the world, wander around around the shop position, head back once having roamed too far
+			world:
+				operation: Wander
+				distance: 5
+				pos: [14, 20]
+			
+			# In combat, fight the player with meleee attacks, aggressively
+			combat:
+				operation: MeleeAggressive
+				target: player
+
+				states:
+					00_healthy:
+						speech: They call me Hammerhead Fred for a reason!
+						condition:
+							0:
+								# Uses actor.Condition check, to compare these attributes
+								
+								# Source detemines value_source
+								source:
+									attribute: health_current
+								# Target detemines value_target
+								target:
+									attribute: health
+									# Modify the target value to 90% of it's original
+									modifier: 90%
+								# Operation determines operation to perform
+								operation:
+									compare: greater_than
+
+					10_injured:
+						speech: It'll take more than that to stop me!
+						condition:
+							0:
+								source:
+									attribute: health_current
+								target:
+									attribute: health
+									modifier: 50%
+								operation:
+									compare: greater_than
+
+					20_wounded:
+						speech: I'm not done yet!
+						condition:
+							0:
+								source:
+									attribute: health_current
+								target:
+									attribute: health
+									modifier: 20%
+								operation:
+									compare: greater_than
+
+					40_near_death:
+						speech: I'm no fool, you're tougher than I thought!
+						operation: Flee
+						# Switch operations now, things are perillous!
+						condition:
+							0:
+								source:
+									attribute: health_current
+								target:
+									attribute: health
+									modifier: 5%
+								operation:
+									compare: greater_than
+								
+								# Ways to do very complex grouping, can be layered to make sure a number of things are true
+								#or: [1, 2, 3]
+								#and: [4, 5]
+								#not: [6, 7]
+								#ignore_result: False		# This could be used for an option we want to ignore the result for, on it's own.  Then combination ones that use or/and/not lists can combined conditions and prove the whole state true or false.  Allows us to make data oriented entries, that wont qualify/disqualify, but can be used in an algorithm.
+
+    
+		
+		conversations:
+			start:
+				openers:
+					0: Can I get ya a bed or beverage?
+				questions:
+					00_bed:
+						text: Take me to your bed bugs!
+						#TODO(g): Add list handling to this argument as well, so we can take multiple operations and do them at the same time.  If operations have data in the question keys, they should prepend the operation name to the data like "RoomSleepPay.soap_preference" or whatever so it's totally clear it's Operation Data.
+						operation: RoomSleepPay
+						cost: 1
+						response: Right away your high-rollerness.
+						response_fail: You can't afford it, and you know it!
+					
+					01_fun:
+						text: Where can I find a good time around here?
+						response: Try asking around at Josephine's...  There is always something going on there.
+						achievement_add: personality.bawdy
+						condition:
+							no_achievement: personality.bawdy
+						
+					02_quest:
+						text: Know of any damsels that need rescuing?
+						dialogue: quest
+					
+					10_barter:
+						text: Let's talk trade.
+						response: I hear ya.
+						dialogue: barter
+					
+					20_fight:
+						text: Me and you Fred.  I'm calling you out!
+						response: Any time!
+						operation: CombatPlayer
+					
+					99_done:
+						text: I'm out of here.
+						operation: CloseDialogue
+						show_always: 1
+					
+			quest:
+				openers:
+					0: What kind of trouble can ya handle?
+				questions:
+					00_fight:
+						text: I'm looking to knock in a few heads!
+						response: Head over to the Rusty Nail in New Haven, it's where all the roughest stuff happens.
+						quest_add: fight_club
+						condition:
+							no_quest: fight_club
+					01_kill:
+						text: I'm a monster hunter, by trade...
+						response: You'll find plenty of them just outside the walls, have at em!
+						quest_add: forest_enemies
+						condition:
+							no_quest: forest_enemies
+					02_intrigue:
+						text: I'm in the mood for something that takes a bit of tact, like information gathering...
+						response: Oh, you're one of those!  All your kind hangs tight in the Rose and Crown in Templefort.
+						quest_add: intrigue
+						condition:
+							no_quest: intrigue
+					03_magic:
+						text: I have experience in the Magical Arts.
+						response: Th-then you can find work at any of our smiths as an Enchanter or Royal Armies as an Escort.
+						quest_add: magic_career
+						condition:
+							no_quest: magic_career
+					99_done:
+						text: Enough.
+						dialogue: start
+			
+			barter:
+				openers:
+					0: What would ya like?
+				
+				operation: BarterBuy
+				data: inventory
+				options:
+					list: all
+
+		
+		items:
+			0:
+				name: Hammer
+				template: hammer
+			1:
+				template: tunic
+
+
+		inventory:
+			00_weapons:
+				name: Weapons		# Name in Barter options
+				
+				buy_modifier: 80%			# Buy at 20% less than base cost
+				sell_modifier: 100%		# Sell at base cost
+				
+				items:
+					0:
+						stock: 5
+						restock_max: 10		# Desired stock maximum.  Will buy more, but wont be auto-restocked more
+						item:
+							template: dagger
+				
+				# Conditions for buying
+				condition:
+					0:
+						type: weapon		# If it is a weapon it will be selected and placed into this category
+
+
+
+
+houses:
+	bar:
+		name: The Muddy Mug
+		rent: 10	# Rent per week
+		sign: [16, 17]	# Position of the sign of this establishment.  Sign lists owner's Name, adds connective tissue to the game.
+
+
+
+# In-game engine cut scenes.  Things happen out of the player's control.  Story time.
+scene:
+	# This is a hypothetical encounter with the bartender.  Could turn it real though, but the idea is
+	#		to show what could be done with it.
+	encounter:
+		info: The player encounters a local group who approaches the player.
+		
+		condition:
+			has_achievement: barkeep.request_work
+		
+		acts:
+			00_approach:
+				barkeep01:
+					from_player_move_to: [-2, 0]	# Move 2 tiles to the left of the player
+			
+			01_hail:
+				barkeep01:
+					speech: What you doing round here?
+					duration: 3.0		# Wait 3 seconds for this to take effect.  Can be used with sounds, so the duration is long enough for the sound to play fully before moving on.  Could use speech music, or multiple things at once.
+					play: [music.drama_building, speech.bob.what_you_doing_round_here] # List of strings, or a single string.  Either works here, will play multiple sounds simultaneously and overlapping.  Not time-synced to the end, just on play.
+			
+			# Walk all the way around the player, 2 tiles distance.
+			02_walk_around_00:
+				barkeep01:
+					from_player_walk_to: [-2, -2]		# from_player_move_to key would teleport the actor, useful as is interpretted first, so in the first act it can locate actors where they need to be on stage, or just separate the walking in the second stage)
+					
+					# Play some funny music as the guy walks around
+					play_loop: music.not_sure_about_this
+			02_walk_around_01:
+				barkeep01:
+					from_player_walk_to: [2, -2]
+			02_walk_around_02:
+				barkeep01:
+					from_player_walk_to: [2, 2]
+			02_walk_around_03:
+				barkeep01:
+					from_player_walk_to: [-2, 2]
+			02_walk_around_04:
+				barkeep01:
+					# Standing back in front of them again.
+					from_player_walk_to: [-2, 0]
+					
+					# Stop playing the song
+					play_stop: music.not_sure_about_this
+			
+			03_think_to_self:
+				barkeep01:
+					thought: You dont look like much to me...
+					duration: 2.0
+					play: music.wawa
+			
+			04_respond:
+				barkeep01:
+					thought: Ok, you got the job.  I'll have my eye on ya though!
+					duration: 3.0
+					play: music.success
+
+

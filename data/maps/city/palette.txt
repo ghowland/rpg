@@ -1,0 +1,53 @@
+-1:
+	name: Unknown
+	image: data/art/0032_wall.bmp
+	blocking: 1
+	noview: 1
+0:
+	name: Building Stone
+	image: data/art/0006_cobblestone1.bmp
+	blocking: 1
+	noview: 1
+1:
+	name: Path
+	image: data/art/0017_path1.bmp
+2:
+	name: Grass
+	image: data/art/0015_grass.bmp
+3:
+	name: Bush
+	image: data/art/0004_bush.bmp
+4:
+	name: Bar
+	image: data/art/0000_bar.bmp
+	blocking: 1
+5:
+	name: '*UNKNOWN*'
+	image: data/art/0043_cobblestone_pool.bmp
+	blocking: 1
+6:
+	name: Pub Sign
+	image: data/art/0026_sign_pub.bmp
+	blocking: 1
+7:
+	name: Table
+	image: data/art/0029_table.bmp
+	blocking: 1
+8:
+	name: Chair
+	image: data/art/0028_stool.bmp
+	blocking: 1
+9:
+	name: Outter Rock
+	image: data/art/0003_block.bmp
+	blocking: 1
+	noview: 1
+10:
+	name: Town Wall
+	image: data/art/0031_townwall3.bmp
+	blocking: 1
+	noview: 1
+11:
+	name: Door
+	image: data/art/0012_door1.bmp
+	noview: 1

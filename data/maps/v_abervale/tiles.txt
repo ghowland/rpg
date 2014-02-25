@@ -1,0 +1,17 @@
+2 1 0030_townwall.bmp
+0 0 0017_path1.bmp
+0 0 0015_grass.bmp
+0 0 0027_single-elm.bmp
+2 0 0000_bar.bmp
+0 0 0035_wood2.bmp
+2 0 0026_sign_pub.bmp
+0 0 0029_table.bmp
+0 0 0028_stool.bmp
+2 1 0003_block.bmp
+2 0 0002_black.bmp
+1 1 0012_door1.bmp
+0 1 0023_rocks_g.bmp
+0 1 0025_rockwall_g.bmp
+0 1 0022_rocks_d.bmp
+0 1 0024_rockwall_d.bmp
+0 0 0004_bush.bmp

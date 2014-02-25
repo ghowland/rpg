@@ -1,0 +1,77 @@
+-1:
+	name: Unknown
+	image: data/art/0032_wall.bmp
+	blocking: 1
+	noview: 1
+0:
+	name: Wall
+	image: data/art/0032_wall.bmp
+	blocking: 1
+	noview: 1
+1:
+	name: Road
+	image: data/art/0017_path1.bmp
+2:
+	name: Cavern
+	image: data/art/0005_cavern.bmp
+3:
+	name: Water
+	image: data/art/0033_water.bmp
+	blocking: 1
+4:
+	name: Water
+	image: data/art/0033_water.bmp
+	blocking: 1
+5:
+	name: Water
+	image: data/art/0033_water.bmp
+	blocking: 1
+6:
+	name: Water
+	image: data/art/0033_water.bmp
+	blocking: 1
+7:
+	name: Water
+	image: data/art/0033_water.bmp
+	blocking: 1
+8:
+	name: Crypt
+	image: data/art/0011_crypt_g.bmp
+9:
+	name: Grass
+	image: data/art/0015_grass.bmp
+10:
+	name: Pine
+	image: data/art/0020_pine.bmp
+	slow: 1
+	noview: 1
+11:
+	name: Elm
+	image: data/art/0014_elm.bmp
+	slow: 1
+	noview: 1
+12:
+	name: Water
+	image: data/art/0033_water.bmp
+	blocking: 1
+13:
+	name: Water
+	image: data/art/0033_water.bmp
+	blocking: 1
+14:
+	name: Water
+	image: data/art/0033_water.bmp
+	blocking: 1
+15:
+	name: Bazar
+	image: data/art/0001_bazar_g.bmp
+16:
+	name: Bush
+	image: data/art/0004_bush.bmp
+17:
+	name: Hills
+	image: data/art/0016_hills.bmp
+	noview: 1
+	slow: 1
+
+

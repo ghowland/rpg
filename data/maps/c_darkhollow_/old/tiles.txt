@@ -1,0 +1,10 @@
+0 0 0010_cobblestone2.bmp
+2 1 0006_cobblestone1.bmp
+2 1 0007_cobblestone1a.bmp
+2 1 0008_cobblestone1b.bmp
+2 1 0009_cobblestone1c.bmp
+2 1 0030_townwall.bmp
+0 0 0002_black.bmp
+0 1 0012_door1.bmp
+0 0 0036_cobblestone_corps.bmp
+0 0 0037_cobblestone_corps2.bmp

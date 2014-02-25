@@ -1,0 +1,5 @@
+0009_grass.bmp
+0001_road.bmp
+0011_elm.bmp
+0000_wall.bmp
+0007_water.bmp

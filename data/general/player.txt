@@ -1,0 +1,88 @@
+default:
+  image: 'data/art/_warrior.bmp'
+  image_color_key: [0, 255, 0]
+  
+  money: 5
+  
+  stats:
+    strength: 5
+    dexterity: 5
+    intelligence: 5
+    wisdom: 5
+    constitution: 5
+    charisma: 5
+    initiative: 5
+  
+  attributes:
+    health: 20
+    health_current: 20
+    
+    mana: 20
+    mana_current: 20
+    
+    action_points: 3
+    action_points_current: 3
+    
+	# Actions
+	actions:
+		melee:
+			points: 2
+			operation: AttackMelee
+		move:
+			points: 1
+			operation: MoveDirection
+    
+
+	# Can have different starter quests for different Characters templates
+	quests:
+		find_fortune:
+			name: Find Your Fortune
+			text: No one is going to do it for you.
+			success:
+				condition:
+					has_money: 1000
+		family_history:
+			name: Discover Your Family's History
+			text: You don't know much about where you came from.  Find out what you can.  Learn your place in the world.
+			success:
+				condition:
+					has_achievement: family.father.info
+					has_achievement: family.mother.info
+					has_achievement: family.sister.info
+
+	# All the abilities for all actors should be listed in this default actor's abilities list
+	abilities:
+		# Mana is needed for these.  Spells, mental powers, or other skills (lock picking, sniping, bomb disarment, etc).
+		0:
+			# Add all actions an actor can take here, and then we can track specific operations to 
+			#		specific actors, and make things more expandable and changeable.  I am especially thinking
+			#		about AI at this point.  Different actors can be given different AI profiles in the
+			#		actor definitions, and have their abilities changed, and it will happen seemlessly in the 
+			#		game, because we are using data the entire time, so dynamic configuration is already present.
+			name: Melee Attack
+			operation: attack.melee
+			
+
+
+
+	items:
+		# Items: armor, clothes, weapons, food/sundries, 
+		0:
+			name: Your Tunic
+			cost: 1
+			template: tunic
+			text: It's a little worn and dirty, but it serves you well.
+		
+		1:
+			name: Pocket Knife
+			type: weapon
+			melee_damage: [1, 2]
+			text: Your trusty pocket knife.  It wont do much damage, but it sure comes in handy!
+	
+	
+specific:
+	# Inherit all data from the default, so we only track differences here.  Additional abilities,
+	#		whatever.
+	template: default
+
+
